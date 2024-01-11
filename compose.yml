@@ -1,0 +1,9 @@
+services:
+    database:
+        image: mariadb:11
+        restart: always
+        ports:
+            - 3306:3306
+        environment:
+            MARIADB_ROOT_PASSWORD: "strongpassword"
+            MARIADB_DATABASE: "concerts-scraper"
