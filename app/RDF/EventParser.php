@@ -74,11 +74,18 @@ class EventParser
             }
         }
 
+        $concertEvent->startDate = str_replace('CET', 'T', $concertEvent->startDate);
+
         if ($concertEvent->startDate) {
-            $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeInterface::W3C, $concertEvent->startDate);
+            $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $concertEvent->startDate);
+
+            if (!$dateTime) {
+                // hack, ale když to mají oni na těch stránkách špatně...
+                $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $concertEvent->startDate.':00+02:00');
+            }
 
             if ($dateTime) {
-                $event->startDate = $dateTime->format(\DateTimeInterface::ATOM);
+                $event->startDate = $dateTime->format('Y-m-d H:i:s');
             } else {
                 $event->startDate = null;
             }
