@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
          $me = \App\Models\User::factory()->create([
              'name' => 'Marek',
              'email' => 'mhau@outlook.cz',
-             'password' => \Hash::make('tvojemama'),
+             'password' => \Hash::make('123456'),
          ]);
 
          Resource::factory()->create([
@@ -27,10 +27,10 @@ class DatabaseSeeder extends Seeder
              'id_user' => $me->id,
          ]);
 
-        Resource::factory()->create([
-            'src' => 'https://www.jazzdock.cz/cs/program',
-            'name' => 'Jazz Dock',
-            'id_user' => $me->id,
-        ]);
+//        Resource::factory()->create([
+//            'src' => 'https://www.jazzdock.cz/cs/program',
+//            'name' => 'Jazz Dock',
+//            'id_user' => $me->id,
+//        ]);
     }
 }
