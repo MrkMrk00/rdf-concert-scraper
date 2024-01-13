@@ -81,7 +81,7 @@ class EventParser
 
             if (!$dateTime) {
                 // hack, ale když to mají oni na těch stránkách špatně...
-                $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $concertEvent->startDate.':00+02:00');
+                $dateTime = \DateTimeImmutable::createFromFormat(\DateTimeInterface::ATOM, $concertEvent->startDate.':00+01:00');
             }
 
             if ($dateTime) {

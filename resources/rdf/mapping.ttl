@@ -2,13 +2,110 @@
 @prefix ex: <http://example.com/ns#> .
 @prefix schema: <http://schema.org/> .
 
-<#TriplesMap1>
+<#ResourcesMap>
+    rr:logicalTable [ rr:tableName "resources" ] ;
+    rr:subjectMap [
+                        rr:template "http://linked.hauschwitz.cz/resource/{id}";
+                        rr:class schema:WebPage ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:name ;
+                        rr:objectMap [ rr:column "name" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:url ;
+                        rr:objectMap [ rr:column "src" ] ;
+                    ]
+.
+
+<#LocationsMap>
+    rr:logicalTable [ rr:tableName "locations" ] ;
+    rr:subjectMap [
+                        rr:template "http://linked.hauschwitz.cz/location/{id}";
+                        rr:class schema:PostalAddress ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:name ;
+                        rr:objectMap [ rr:column "name" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:url ;
+                        rr:objectMap [ rr:column "url" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:addressCountry;
+                        rr:objectMap [ rr:column "addressCountry" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:addressLocality ;
+                        rr:objectMap [ rr:column "addressLocality" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:addressRegion ;
+                        rr:objectMap [ rr:column "addressRegion" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:postalCode ;
+                        rr:objectMap [ rr:column "postalCode" ] ;
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:streetAddress ;
+                        rr:objectMap [ rr:column "streetAddress" ] ;
+                    ] ;
+.
+
+<#EventsMap>
     rr:logicalTable [ rr:tableName "events" ];
     rr:subjectMap [
-        rr:template "http://linked.hauschwitz.cz/event/{id}";
-        rr:class schema:MusicEvent;
-    ];
+                        rr:template "http://linked.hauschwitz.cz/event/{id}";
+                        rr:class schema:MusicEvent;
+                    ] ;
     rr:predicateObjectMap [
-        rr:predicate schema:name;
-        rr:objectMap [ rr:column "name" ];
-    ].
+                        rr:predicate schema:name;
+                        rr:objectMap [ rr:column "name" ];
+                    ];
+    rr:predicateObjectMap [
+                        rr:predicate schema:url;
+                        rr:objectMap [ rr:column "url" ];
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:image;
+                        rr:objectMap [ rr:column "image" ];
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:description;
+                        rr:objectMap [ rr:column "description" ];
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:performer;
+                        rr:objectMap [ rr:column "performer" ];
+                    ] ;
+    rr:predicateObjectMap [
+                        rr:predicate schema:startDate;
+                        rr:objectMap [ rr:column "startDate" ];
+                    ] ;
+    rr:predicateObjectMap [
+                              rr:predicate schema:startDate;
+                              rr:objectMap [ rr:column "startDate" ];
+                          ] ;
+    rr:predicateObjectMap [
+                              rr:predicate schema:organizer;
+                              rr:objectMap [
+                                               rr:parentTriplesMap <#ResourcesMap> ;
+                                               rr:joinCondition [
+                                                                       rr:child "id_resource" ;
+                                                                       rr:parent "id" ;
+                                                                   ] ;
+                                           ];
+                          ] ;
+    rr:predicateObjectMap [
+                              rr:predicate schema:organizer;
+                              rr:objectMap [
+                                               rr:parentTriplesMap <#LocationsMap> ;
+                                               rr:joinCondition [
+                                                                       rr:child "id_location" ;
+                                                                       rr:parent "id" ;
+                                                                   ] ;
+                                           ];
+                          ] ;
+.
