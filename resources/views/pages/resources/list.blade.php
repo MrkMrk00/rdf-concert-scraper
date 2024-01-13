@@ -35,7 +35,7 @@
                         <td class="text-center py-2 font-bold">{{ $resource->id }}</td>
                         <td class="text-center py-2">{{ $resource->name }}</td>
                         <td class="text-center py-2"><a class="underline text-blue-700" target="_blank" href="{{ $resource->src }}">{{ $resource->src }}</a></td>
-                        <td class="flex flex-row gap-3">
+                        <td class="flex flex-row gap-3 p-2">
                             <button
                                 hx-confirm="Opravdu chceš smazat zdroj {{ $resource->name }}?"
                                 hx-delete="{{ route('resources.destroy', ['resource' => $resource->id]) }}"
@@ -67,10 +67,54 @@
             @endif
         </div>
 
+        <div class="rounded-2xl shadow w-full max-w-xl p-4 flex flex-row justify-between">
+            <x-Button
+                class="bg-blue-600 text-white"
+                hx-post="{{ route('resources.sync') }}"
+                hx-swap="none"
+            >Synchronizovat vše</x-Button>
+
+            <select
+                aria-label="Stáhnout RDF dump"
+                class="rounded-xl bg-blue-600 text-white px-4 py-2 shadow-md hover:brightness-95 transition-all text-lg"
+                id="dump-download">
+                <option value="" selected>Stáhnout RDF dump</option>
+                <optgroup label="Vyberte formát:">
+                    <option value="rdfxml">RDF/XML</option>
+                    <option value="turtle">Turtle</option>
+                    <option value="ntriples">N-Triples</option>
+                    <option value="nquads">N-Quads</option>
+                    <option value="trig">TriG</option>
+                    <option value="jsonld">JSON-LD</option>
+                </optgroup>
+            </select>
+            <script type="text/javascript">
+                document.getElementById('dump-download').addEventListener('change', function (e) {
+                    const format = e.target.value;
+                    if (format) {
+                        const href = '{{ route('linked_dump') }}?format=' + format;
+
+                        window.open(href, '_blank');
+                    }
+
+                    e.target.value = '';
+                });
+            </script>
+        </div>
+
         <div class="rounded-2xl shadow w-full max-w-xl p-4">
-            <h3 class="font-bold text-xl">Data z vybraného zdroje:</h3>
+            <div class="flex flex-row justify-between items-center">
+                <h3 class="font-bold text-xl">Data z vybraného zdroje:</h3>
+                <x-icon.TrashCan height="2em" width="1.2em" fill="red" id="delete-resource-detail" class="cursor-pointer" />
+            </div>
             <pre id="resource-detail" class="break-all text-sm overflow-scroll max-h-[50vh]"></pre>
         </div>
+
+        <script type="text/javascript">
+            document.getElementById('delete-resource-detail').addEventListener('click', function () {
+                document.getElementById('resource-detail').innerHTML = '';
+            });
+        </script>
     </div>
 
     <dialog

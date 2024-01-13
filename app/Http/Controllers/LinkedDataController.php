@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class LinkedDataController extends Controller
 {
-    #[Get('/linked', name: 'linked_data')]
+    #[Get('/linked', name: 'linked_dump')]
     public function getEvents(Request $request): Response
     {
         $params = $request->validate([

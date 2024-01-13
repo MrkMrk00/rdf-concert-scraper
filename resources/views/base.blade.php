@@ -13,6 +13,6 @@
 </head>
 <body>
     <x-Navbar />
-    <main class="w-full h-full">@yield('body')</main>
+    <main class="w-full h-full flex flex-row justify-center items-center">@yield('body')</main>
 </body>
 </html>

@@ -9,6 +9,7 @@ use App\RDF\Microdata\Type;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 use Spatie\RouteAttributes\Attributes\Get;
+use Spatie\RouteAttributes\Attributes\Post;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -72,5 +73,22 @@ class ResourcesController extends Controller
         }
 
         return response()->json($normalized, options: JSON_PRETTY_PRINT);
+    }
+
+    #[Post('/resources/sync', name: 'resources.sync')]
+    public function syncAll(EventParser $events): Response
+    {
+        $parser = new Parser();
+
+        foreach (Resource::all() as $resource) {
+            $html = \Http::get($resource->src)->body();
+
+            $normalized = array_map(fn (Type $a) => $events->normalize($a), $parser->parse($html));
+            foreach ($normalized as $norm) {
+                $events->save($norm, $resource->id);
+            }
+        }
+
+        return new Response();
     }
 }
