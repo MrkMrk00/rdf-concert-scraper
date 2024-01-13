@@ -4,4 +4,4 @@ vendor/
 ontop/
 .idea/
 .git/
-.env.local
+resources/rdf/local.properties

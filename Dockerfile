@@ -2,8 +2,8 @@ FROM php:8.2
 
 WORKDIR /setup
 
-RUN apt update && apt install -y git zip libzip-dev nodejs
-RUN docker-php-ext-install zip
+RUN apt update && apt install -y git zip libzip-dev nodejs openjdk-17-jre
+RUN docker-php-ext-install zip pdo pdo_mysql
 
 # install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -22,5 +22,10 @@ COPY . .
 RUN composer install
 RUN pnpm install
 RUN pnpm build
+
+# prepare ONTOP
+RUN curl -#L https://github.com/ontop/ontop/releases/download/ontop-5.1.1/ontop-cli-5.1.1.zip -o ontop.zip
+RUN unzip ontop.zip -d ontop
+RUN curl -#L https://dlm.mariadb.com/3700566/Connectors/java/connector-java-3.3.2/mariadb-java-client-3.3.2.jar -o ontop/jdbc/mariadb-java-client-3.3.2.jar
 
 CMD ["php", "-S", "0.0.0.0:8080", "-t", "/app/public"]

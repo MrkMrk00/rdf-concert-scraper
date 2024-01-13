@@ -1,0 +1,23 @@
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: concerts-scraper
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      APP_ENV: prod
+      DB_HOST: database
+      DB_PORT: 3306
+      DB_DATABASE: concerts-scraper
+      DB_USERNAME: root
+      DB_PASSWORD: strongpassword
+
+  database:
+    image: mariadb:11
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: "strongpassword"
+      MARIADB_DATABASE: "concerts-scraper"
