@@ -19,9 +19,9 @@ class LinkedDataController extends Controller
 
         $this->createJDBCProperties();
 
-        $descriptorspec = array(
+        $descriptorspec = [
             1 => ['pipe', 'w'],
-        );
+        ];
 
         $command = [
             base_path('ontop/ontop'),

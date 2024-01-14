@@ -99,7 +99,7 @@
                                            ];
                           ] ;
     rr:predicateObjectMap [
-                              rr:predicate schema:organizer;
+                              rr:predicate schema:location;
                               rr:objectMap [
                                                rr:parentTriplesMap <#LocationsMap> ;
                                                rr:joinCondition [
@@ -109,3 +109,4 @@
                                            ];
                           ] ;
 .
+
